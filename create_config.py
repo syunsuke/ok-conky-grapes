@@ -32,7 +32,7 @@ import pathlib
 
 # Inittiating variables
 home = expanduser("~")
-working_dir = home+'/conky/conky-grapes/'
+working_dir = home+'/.conky/ok-conky-grapes/'
 src_lua = working_dir+'rings-v2_tpl'
 dest_lua = working_dir+'rings-v2_gen.lua'
 src_conky = working_dir+'conky_tpl'
@@ -476,7 +476,7 @@ def write_cpuconf_conky(cpunb):
 
     # bring lines closer if many cpus
     if cpunb > 4:
-        if cpunb >= 6:
+        if cpunb >= 5:
             voffset = -3
         else:
             if old:
@@ -493,15 +493,19 @@ def write_cpuconf_conky(cpunb):
         cpuconf.append(new_block)
 
     log.info('adjusting voffset for top cpu processes...')
+
+    # now I dont use adjust.
+    # I use myadj instead of adjust. I just keep adjust for old.
     if cpunb > 4:
         adjust = 12 - (voffset * cpunb)
     else:
         adjust = 28 - (voffset * cpunb)
 
+    myadj = [59,44,32,26,22,12]
     if old:
         new_block = "${{goto 50}}${{voffset {0}}}${{color1}}${{top name 1}}${{alignr 306}}${{top cpu 1}}%".format(adjust)
     else:
-        new_block = "${{goto 49}}${{voffset 12}}${{color1}}${{top name 1}}${{alignr 306}}${{top cpu 1}}%".format(adjust)
+        new_block = "${{goto 49}}${{voffset {0}}}${{color1}}${{top name 1}}${{alignr 306}}${{top cpu 1}}%".format(myadj[cpunb-1])
 
     cpuconf.append(new_block)
 
@@ -526,7 +530,8 @@ def write_diskioconf_conky():
 
     # top io wait processes
     # First line, fixed vertical alignment
-    new_block = "${voffset -130}${goto 378}${font}${color1}${top_io name 1}${alignr 30}${top_io io_write 1}%\n"
+    # and had to fixed vertical alignment again
+    new_block = "${voffset -142}${goto 378}${font}${color1}${top_io name 1}${alignr 30}${top_io io_write 1}%\n"
     ioconf.append(new_block)
 
     for cpt in range (2,4):
@@ -628,7 +633,9 @@ def write_memconf_conky():
 
     log.info('Writing MEMORY conky config in config file')
     filedata = read_conf(dest_conky)
-    filedata = filedata.replace('#{{ MEMORY }}', ''.join(memconf))
+
+    # We had to delete a newline character
+    filedata = filedata.replace('#{{ MEMORY }}', ''.join(memconf).rstrip("\n"))
     write_conf(filedata, dest_conky)
 
 def write_netconf_lua(interface):
