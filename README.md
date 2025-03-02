@@ -10,6 +10,8 @@ I forked this from Popi to host my own config and have my settings in it. You're
 
 Source [POPI gitlab server](https://gitlab.nomagic.uk/popi/conky-grapes)
 
+![Image](https://github.com/user-attachments/assets/a3f120c7-961d-4310-851d-4ee7e96af17d)
+> This is My Conky
 
 ### Updates
 - 2025-03-02: I forked as ok-conky-grapes from original conky-grapes 
@@ -25,6 +27,7 @@ and battery when relevant.
 _note: the limits on cpu and filesystems are for display reason._
 
 ![](https://pic.nomagic.uk/W9MjLPJF)
+> This is Original
 
 ## Why use it
 To tune up your desktop of course! It is under [GPLv3 License](gpl-3.0.txt), so feel free to use, study, improve and share as you please.
